@@ -1,0 +1,19 @@
+{
+  "name": "cloud",
+  "version": "0.0.0",
+  "authors": [
+    "Alfonso (the fonz) de la Osa <fonz@botverse.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "backbone": "~1.1.2",
+    "requirejs": "~2.1.15"
+  }
+}
