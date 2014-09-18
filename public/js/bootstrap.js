@@ -1,12 +1,14 @@
 require.config({
   paths: {
-    underscore: '/public/vendor/underscore/underscore',
-    backbone: '/public/vendor/backbone/backbone'
+    jquery: '/vendor/jquery/dist/jquery',
+    underscore: '/vendor/underscore/underscore',
+    backbone: '/vendor/backbone/backbone',
+    text: '/vendor/requirejs-text/text'
   }
 });
 
 require([
-  'app',
-], function(App){
+  'app'
+], function(App) {
   App.initialize();
 });

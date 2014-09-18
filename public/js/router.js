@@ -1,25 +1,31 @@
 define([
   'underscore',
+  'config',
   'backbone',
-], function(_, Backbone){
+
+  'views/topics/cloud',
+  'views/topics/topic'
+], function(_, config, Backbone, CloudView, TopicView) {
+  var cc = config.CLOUD;
+  var cloud = new CloudView(cc.nr, cc.inc).render();
+
   var AppRouter = Backbone.Router.extend({
     routes: {
-      '/tags': 'showTags',
-      '/tags/:id': 'showTag',
+      'topics': function() { },
+
+      'topics/:id': function(id) {
+        var topic = new TopicView(id);
+      },
       
-      '*actions': 'defaultAction'
+      '*any': function() {
+        this.navigate('/topics', true);
+      }
     }
   });
 
-  var initialize = function(){
-    var app_router = new AppRouter;
-    app_router.on('showProjects', function(){
+  var router = new AppRouter();
 
-    });
+  Backbone.history.start({ pushState: true });
 
-    Backbone.history.start();
-  };
-  return {
-    initialize: initialize
-  };
+  return router;
 });

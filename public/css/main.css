@@ -1,0 +1,44 @@
+* {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box
+}
+
+.green {
+  color: green;
+}
+
+.grey {
+  color: grey;
+}
+
+.red {
+  color: red;
+}
+
+.cloud {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  margin-right: 300px;
+}
+
+.cloud span {
+  position: absolute;
+  white-space: nowrap;
+  padding: .1em .5em;
+  cursor: pointer;
+}
+
+.cloud span:hover {
+  text-decoration: underline;
+}
+
+.topic {
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  width: 300px;
+}
