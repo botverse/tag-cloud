@@ -108,9 +108,9 @@ define([
 
       for (var dist = 0, found = false;
            dist < center.y || found === false;
-           dist += 5) {
+           dist += 20) {
         if(found) break;
-        for (var angle = 0; angle < 2; angle += .5) {
+        for (var angle = 0; angle < 2; angle += 1.5) {
           var pushangle = (angle + start) % 2;
           var point = µ.ellipse(dist, pushangle);
           var pos = disp(point).add(center);
@@ -118,8 +118,8 @@ define([
           var dim = new µ.Rect(
             pos.x,
             pos.y,
-            $word.outerWidth(),
-            $word.outerHeight()
+            $word.width(),
+            $word.height()
           );
 
           if(!collide(dim)) {

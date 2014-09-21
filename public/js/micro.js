@@ -17,6 +17,7 @@ define(function() {
   }
 
   function collide(rect1, rect2) {
+    window.times = (window.times || 0)+1;
     var collision =
       !!(rect1.x < rect2.x + rect2.width &&
         rect1.x + rect1.width > rect2.x &&
@@ -54,7 +55,6 @@ define(function() {
   }
 
   function ellipse(dist, angle) {
-    window.times = (window.times || 0)+1;
     return new Point(
       dist * 2 * Math.cos(angle * Math.PI),
       dist * Math.sin(angle * Math.PI)
