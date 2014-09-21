@@ -25,5 +25,6 @@
   "devDependencies": {
     "karma-requirejs": "^0.2.2",
     "requirejs": "^2.1.15"
-  }
+  },
+  "engines" : { "node" : ">=0.10.3 <0.12" }
 }
