@@ -1,4 +1,10 @@
+/**
+ * All the magic numbers should be written in this module.
+ */
+
 define(function() {
+  'use strict';
+
   return {
     CLOUD: {
       nr: 6,

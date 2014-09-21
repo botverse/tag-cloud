@@ -10,5 +10,7 @@ require.config({
 require([
   'app'
 ], function(App) {
+  // Initialization technique similar to
+  // http://backbonetutorials.com/organizing-backbone-using-modules/
   App.initialize();
 });

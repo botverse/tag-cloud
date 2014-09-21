@@ -4,7 +4,7 @@ define([
   'backbone',
   'router',
   'views/topics/cloud'
-], function(_, config, Backbone, router, CloudView) {
+], function(_, config, Backbone, router) {
   var initialize = function() {
     router.initialize();
   };

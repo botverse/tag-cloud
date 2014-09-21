@@ -9,7 +9,13 @@ define([
   'views/topics/word'
 ], function($, _, µ, Backbone, TopicsCollection, WordView) {
 
-
+  /**
+   * To create an instance of the CloudView,
+   * just pass the number of different sizes
+   * and the multiplier between them.
+   *
+   * @constructor
+   */
   var CloudView = Backbone.View.extend({
     tagName: 'div',
 
@@ -18,27 +24,40 @@ define([
     initialize: function(nrsizes, increment) {
       var that = this;
 
+      // TODO: would be reusable if the collection is passed,
+      // or at least the url
       var collection = new TopicsCollection();
 
       this.collection = collection;
 
+      // we need an array with the different sizes
       this.sizes = µ.genSizes(nrsizes, 1, increment).map(function(size){
         return size + 'em';
       });
 
+      // everytime we add a word, we check if pushes
+      // the boundaries of the min and max volume
       this.collection.on('add', this.calculate, this);
+      // all of them are here, so let's do the trick
       this.collection.on('sync', this.addTopics, this);
 
       this.collection.fetch();
 
+      // this is handy for resizing
       this.originalWidth = this.$el.width();
 
+      // the minimum font size is determined by the cloud
+      // container width
       this.$el.parent().css('font-size', this.originalWidth / 35);
 
       $(window).resize(function() {
         that.resize();
       });
     },
+
+    /**
+     * set the new scale to all words
+     */
 
     resize: function() {
       var scale =  this.$el.width() / this.originalWidth;
@@ -47,6 +66,13 @@ define([
         word.setScale(scale)
       });
     },
+
+    /**
+     * Check if the topic has a volume out
+     * of boundaries
+     *
+     * @param topic
+     */
 
     calculate: function(topic) {
       var boundaries = this.boundaries
@@ -64,12 +90,24 @@ define([
       }
     },
 
+    /**
+     * Add all the topics and resize after
+     */
+
     addTopics: function() {
       this.collection.each(function(topic) {
         this.addWordView(topic);
       }, this);
       this.resize();
     },
+
+    /**
+     * Create a view from every topic received.
+     * Finds the size by it's segment in the collection,
+     * and injects the element in this view
+     *
+     * @param topic
+     */
 
     addWordView: function(topic) {
       var word = new WordView({ model: topic });
@@ -81,6 +119,14 @@ define([
       this.place(word);
     },
 
+    /**
+     * Finds out which is the corresponding
+     * size in the size array.
+     *
+     * @param vol
+     * @returns {Number}
+     */
+
     getSize: function(vol) {
       var min = this.boundaries.min
         , max = this.boundaries.max
@@ -91,6 +137,13 @@ define([
 
       return this.sizes[pos];
     },
+
+    /**
+     * Relocates the word in the cloud.
+     * It will draw concentric circles until finds a gap.
+     *
+     * @param word
+     */
 
     place: function(word) {
       var $word = word.$el;
