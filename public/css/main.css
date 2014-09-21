@@ -4,6 +4,10 @@
   -webkit-box-sizing: border-box
 }
 
+body {
+  padding: 10px;
+}
+
 .green {
   color: green;
 }
@@ -17,28 +21,40 @@
 }
 
 .cloud {
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  right: 0px;
-  bottom: 0px;
-  margin-right: 300px;
+  overflow: auto;
 }
 
-.cloud span {
+.cloud ul {
+  padding: 0px;
+  position: relative;
+  margin-bottom: 50%;
+  list-style: none;
+}
+
+.cloud li {
   position: absolute;
   white-space: nowrap;
-  padding: .1em .5em;
+  padding: .1em;
   cursor: pointer;
 }
 
-.cloud span:hover {
+.cloud li:hover {
   text-decoration: underline;
 }
 
-.topic {
-  position: absolute;
-  right: 0px;
-  top: 0px;
-  width: 300px;
+@media (min-width: 600px) {
+  .cloud ul {
+    position: absolute;
+    top: 90px;
+    left: 0px;
+    right: 0px;
+    margin-right: 300px;
+  }
+
+  .topic {
+    position: absolute;
+    right: 0px;
+    top: 90px;
+    width: 300px;
+  }
 }

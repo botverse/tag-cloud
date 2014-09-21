@@ -31,23 +31,21 @@ define([
 
       this.collection.fetch();
 
-      var width = this.$el.width();
+      this.originalWidth = this.$el.width();
+
+      this.$el.parent().css('font-size', this.originalWidth / 35);
 
       $(window).resize(function() {
-        var scale =  that.$el.width() / width;
-        that.$el.css('fonz-size', that.$el.width() * scale / 40);
-        that.resize(scale);
+        that.resize();
       });
     },
 
-    resize: function(scale) {
-      _.each(this.wordDimensions, function(elem) {
-        this.setSize(elem.word);
-        elem.word.$el.css({
-          left: elem.x * scale,
-          top: elem.y * scale
-        });
-      }, this);
+    resize: function() {
+      var scale =  this.$el.width() / this.originalWidth;
+      this.$el.css('font-size', scale + "em");
+      _.each(this.words, function(word) {
+        word.setScale(scale)
+      });
     },
 
     calculate: function(topic) {
@@ -70,20 +68,17 @@ define([
       this.collection.each(function(topic) {
         this.addWordView(topic);
       }, this);
+      this.resize();
     },
 
     addWordView: function(topic) {
       var word = new WordView({ model: topic });
-      this.setSize(word);
-      var $word = word.render().$el;
-      this.$el.append($word);
-      this.place(word);
-    },
-
-    setSize: function(word) {
       var vol = word.model.get('volume');
       var size = this.getSize(vol);
       word.setSize(size);
+      var $word = word.render().$el;
+      this.$el.append($word);
+      this.place(word);
     },
 
     getSize: function(vol) {
@@ -101,16 +96,22 @@ define([
       var $word = word.$el;
       var $el = this.$el;
 
-      var center = µ.center($el);
+      var center = µ.ellipseCenter($el);
       var disp = µ.displacement($word);
       var start = µ.random(0, 2);
-      var collide = µ.batchCollide(this.wordDimensions);
+
+      var rects = this.words.map(function(word) {
+        return word.dimensions;
+      });
+      var collide = µ.batchCollide(rects);
 
       for (var dist = 0, found = false;
            dist < center.y || found === false;
-           dist += 20) {
+           dist += 10) {
+
         if(found) break;
-        for (var angle = 0; angle < 2; angle += 1.5) {
+
+        for (var angle = 0; angle < 2; angle += .3) {
           var pushangle = (angle + start) % 2;
           var point = µ.ellipse(dist, pushangle);
           var pos = disp(point).add(center);
@@ -118,7 +119,7 @@ define([
           var dim = new µ.Rect(
             pos.x,
             pos.y,
-            $word.width(),
+            $word.outerWidth(),
             $word.height()
           );
 
@@ -129,14 +130,9 @@ define([
         }
       }
 
-      $word.css({
-        left: found.x,
-        top: found.y
-      });
+      word.setDims(found);
 
-      found.word = word;
-
-      this.wordDimensions.push(found);
+      this.words.push(word);
     },
 
     sizes: null,
@@ -146,7 +142,9 @@ define([
       max: null
     },
 
-    wordDimensions: []
+    words: [],
+
+    originalWidth: null
   });
 
   return CloudView;

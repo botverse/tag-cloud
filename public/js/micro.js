@@ -2,12 +2,11 @@ define(function() {
   function Point(x, y) {
     this.x = x;
     this.y = y;
-    this.add = function(point) {
-      this.x = x + point.x;
-      this.y = y + point.y;
-      return this;
-    };
   }
+
+  Point.prototype.add = function(point) {
+    return new Point(this.x + point.x, this.y + point.y);
+  };
 
   function Rect(x, y, width, height) {
     this.x = x;
@@ -16,25 +15,29 @@ define(function() {
     this.height = height;
   }
 
-  function collide(rect1, rect2) {
-    window.times = (window.times || 0)+1;
+  Rect.prototype.collide = function(rect) {
+    return collide(this, rect);
+  };
+
+  function collide(a, b) {
+    window.times = (window.times || 0) + 1;
     var collision =
-      !!(rect1.x < rect2.x + rect2.width &&
-        rect1.x + rect1.width > rect2.x &&
-        rect1.y < rect2.y + rect2.height &&
-        rect1.height + rect1.y > rect2.y);
+      !!(a.x < b.x + b.width &&
+        a.x + a.width > b.x &&
+        a.y < b.y + b.height &&
+        a.height + a.y > b.y);
     return collision;
   }
 
   function batchCollide(rects) {
     return function(check) {
       return rects.some(function(rect) {
-        if(collide(rect, check)) return true;
+        if(rect.collide(check)) return true;
       });
     }
   }
 
-  function center($el) {
+  function ellipseCenter($el) {
     return new Point(
         $el.width() / 2,
         $el.width() / 4
@@ -90,7 +93,7 @@ define(function() {
     Rect: Rect,
     collide: collide,
     batchCollide: batchCollide,
-    center: center,
+    ellipseCenter: ellipseCenter,
     displacement: displacement,
     random: random,
     genSizes: genSizes,

@@ -1,10 +1,10 @@
 define([
   'jquery',
   'underscore',
+  'micro',
   'config',
-  'backbone',
-  'router'
-], function($, _, config, Backbone) {
+  'backbone'
+], function($, _, µ, config, Backbone) {
 
   function getColor(sentiment) {
     var colors = config.CLOUD.colors;
@@ -19,7 +19,9 @@ define([
   }
 
   var WordView = Backbone.View.extend({
-    tagName: 'span',
+    tagName: 'li',
+
+    pos: new µ.Point(0, 0),
 
     initialize: function() {
       var $el = this.$el
@@ -46,7 +48,17 @@ define([
       this.$el.css('font-size', size);
     },
 
-    cloudView: null
+    setDims: function(dims) {
+      this.dimensions = dims;
+    },
+
+    setScale: function(scale) {
+      var dim = this.dimensions;
+      this.$el.css({
+        left: dim.x * scale,
+        top: dim.y * scale
+      });
+    }
   });
 
   return WordView;

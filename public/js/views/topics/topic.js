@@ -4,15 +4,13 @@ define([
   'config',
   'backbone',
 
-  'models/topic',
-
-  'text!/templates/topics/topic.html'
-], function($, _, config, Backbone, TopicModel, topicTemplate) {
+  'models/topic'
+], function($, _, config, Backbone, TopicModel) {
 
   var TopicView = Backbone.View.extend({
     el: $('#topic'),
 
-    template: _.template(topicTemplate),
+    template: _.template($('#topic-template').html()),
 
     initialize: function(topicId) {
       this.model = new TopicModel({ id: topicId });

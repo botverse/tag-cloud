@@ -3,12 +3,44 @@
 <html>
 <head>
   <base href="/" />
+
+  <link href="/vendor/normalize-css/normalize.css" rel="stylesheet" />
   <link href="/css/main.css" rel="stylesheet" />
 </head>
 
 <body>
-  <div id="cloud" class="cloud"></div>
+  <h1>My Topics Challenge</h1>
+  <div class="cloud">
+    <ul id="cloud"></ul>
+  </div>
   <div id="topic" class="topic"></div>
+
+  <script type="text/template" id="topic-template">
+    <p>Information on topic "<%= label %>":</p>
+
+    <p>Total mentions: <%= volume %></p>
+
+    <p>
+      <% if(sentiment.positive) { %>
+      Positive mentions:
+      <span class="green">
+        <%= sentiment.positive %>
+      </span><br />
+      <% } %>
+      <% if(sentiment.neutral) { %>
+      Neutral mentions:
+      <span class="grey">
+        <%= sentiment.neutral %>
+      </span><br />
+      <% } %>
+      <% if(sentiment.negative) { %>
+      Negative mentions:
+      <span class="red">
+        <%= sentiment.negative %>
+      </span><br />
+      <% } %>
+    </p>
+  </script>
 
   <script
       data-main="js/bootstrap"

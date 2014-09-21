@@ -1,9 +1,8 @@
 define([
-  'underscore',
   'backbone',
   'models/topic'
-], function(_, Backbone, TopicModel) {
-  var TopicCollection = Backbone.Collection.extend({
+], function(Backbone, TopicModel) {
+  var TopicsCollection = Backbone.Collection.extend({
     model: TopicModel,
     comparator: function(topic) { return -topic.get('volume') },
     url: '/api/topics',
@@ -12,5 +11,5 @@ define([
     }
   });
 
-  return TopicCollection;
+  return TopicsCollection;
 });
