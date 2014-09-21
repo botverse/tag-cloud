@@ -22,7 +22,9 @@ define([
 
       this.collection = collection;
 
-      this.sizes = µ.genSizes(nrsizes, this.$el.width() / 40, increment);
+      this.sizes = µ.genSizes(nrsizes, 1, increment).map(function(size){
+        return size + 'em';
+      });
 
       this.collection.on('add', this.calculate, this);
       this.collection.on('sync', this.addTopics, this);
@@ -32,8 +34,8 @@ define([
       var width = this.$el.width();
 
       $(window).resize(function() {
-        that.sizes = µ.genSizes(nrsizes, that.$el.width() / 40, increment);
         var scale =  that.$el.width() / width;
+        that.$el.css('fonz-size', that.$el.width() * scale / 40);
         that.resize(scale);
       });
     },
